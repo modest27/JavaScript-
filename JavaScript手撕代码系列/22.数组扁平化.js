@@ -10,3 +10,21 @@ function flatter(arr) {
 }
 
 // console.log(flatter([1, 2, 3, [4, 5, [6]]]))
+
+// 任意层数数组扁平化
+let count = 0
+var flatter = function (arr, k) {
+  if (!arr.length) return
+  return arr.reduce((pre, cur) => {
+    if (Array.isArray(cur)) {
+      count++
+      if (count === k) {
+        return [...pre, cur]
+      } else {
+        return [...pre, ...flatter(cur)]
+      }
+    } else {
+      return [...pre, cur]
+    }
+  }, [])
+}
