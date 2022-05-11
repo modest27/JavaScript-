@@ -15,7 +15,7 @@ class EventEmitter {
   // off 取消订阅
   off(type, callback) {
     if (this.event[type]) {
-      this.event[type].forEach(item => {
+      this.event[type] = this.event[type].filter(item => {
         return item !== callback
       })
     } else {
@@ -25,17 +25,18 @@ class EventEmitter {
 
   // once 执行一次订阅
   once(type, callback) {
-   function fn(type, callback){
+    function fn(type, callback) {
       callback()
-      this.off(type,callback)
+      this.off(type, callback)
     }
-    this.on(type,fn)
+    this.on(type, fn)
   }
 
   // emit 触发订阅
   emit(type, ...args) {
-    this.event[type] && this.event[type].forEach(fn => {
-      fn.apply(this,args)
-    })
+    this.event[type] &&
+      this.event[type].forEach(fn => {
+        fn.apply(this, args)
+      })
   }
 }
