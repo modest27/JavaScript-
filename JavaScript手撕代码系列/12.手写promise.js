@@ -161,23 +161,22 @@ class MyPromise {
     })
   }
 
-  // any 方法
-  static any(promises) {
-    return new MyPromise((resolve, reject) => {
-      let count = 0
-      promises.forEach(promise => {
-        promise.then(
-          res => {
-            resolve(res)
-          },
-          err => {
-            count++
-            if (count === promises.length) {
-              reject(new AggregateError('All promises were rejected'))
-            }
+    // any 方法
+    static any(promises) {
+      return new MyPromise((resolve, reject) => {
+        let count = 0
+        promises.forEach(promise => {
+          if (promise instanceof MyPromise) {
+            promise.then(res => {
+              resolve(res)
+            }, err => {
+              count++
+              if(count === promises.length) reject(new AggregateError('All promise were rejected'))
+            })
+          } else {
+            resolve(promise)
           }
-        )
+        })
       })
-    })
-  }
+    }
 }

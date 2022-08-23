@@ -23,6 +23,9 @@ class LRUCache {
     }
     this.cache.set(key,value)
     if(this.cache.size > this.size) {
+      // this.cache.keys() 是一个MapIterator迭代器
+      // 例如：let a = new Map([['a',1],['b',2]])
+      // a.keys().next() --> {value: 'a', done: false}
       this.cache.delete(this.cache.keys().next().value)
     }
   }
